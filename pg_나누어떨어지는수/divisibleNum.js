@@ -11,4 +11,4 @@ function solution(arr, divisor) {
         answer.push(-1); return answer; 
     } 
     return answer.sort((a,b) => a - b ); //오름차순으로 정렬
-}
+}//잔디 심어졌는지 확인
