@@ -3,7 +3,10 @@ function solution(price, money, count) {
     for (var i = 1; i<=count; i++) {
         sum += price*i
     }
-    if(sum > money) {
-        return sum - money;
-    }else return 0;
+    return sum > money? sum - money : 0;
+}
+//다른 사람 풀이
+function solution(price, money, count) {
+    const tmp = price * count * (count + 1) / 2 - money;
+    return tmp > 0 ? tmp : 0;
 }
