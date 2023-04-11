@@ -21,6 +21,5 @@ const isPrime = (n) => {
         return false;
       }
     }
-  
     return true;
   }
