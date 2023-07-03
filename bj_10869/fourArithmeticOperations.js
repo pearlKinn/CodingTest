@@ -4,8 +4,8 @@ const filePath =
   process.platform === "linux" ? "/dev/stdin" : `${__dirname}/input.txt`;
 let input = fs.readFileSync(filePath).toString().trim().split("\r\n");
 
-const A = parseInt(input[0]);
-const B = parseInt(input[1]);
+const A = parseInt(input[0][0]);
+const B = parseInt(input[0][2]);
 
 console.log(A+B);
 console.log(A-B);
