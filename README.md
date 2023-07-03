@@ -3,6 +3,18 @@
 ## 프로그래머스 - pg 
 
 ## 백준 - BJ
+답안 백준에 제출 시 - \r\n ==> \n
+```js
+"use strict";
+const fs = require("fs");
+const filePath =
+  process.platform === "linux" ? "/dev/stdin" : `${__dirname}/input.txt`;
+let input = fs.readFileSync(filePath).toString().trim().split("\r\n");
+```
+
+
+
+
  1. 하나의 값을 입력받을 때
  ```
  const input = require('fs').readFileSync('/dev/stdin').toString().trim();
