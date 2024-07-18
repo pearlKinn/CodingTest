@@ -2,24 +2,22 @@
 const fs = require("fs");
 const filePath =
   process.platform === "linux" ? "/dev/stdin" : `${__dirname}/input.txt`;
-let inputString = fs.readFileSync(filePath).toString().trim();
+let inputString = fs.readFileSync(filePath).toString().split("");
 
-const result = inputString
-  .split("")
-  .map((char) => {
-    const charCode = char.charCodeAt(0);
+const compareArray = [];
 
-    if (charCode >= 65 && charCode <= 90) {
-      // 대문자 A-Z
-      return String.fromCharCode(((charCode - 65 + 13) % 26) + 65);
-    } else if (charCode >= 97 && charCode <= 122) {
-      // 소문자 a-z
-      return String.fromCharCode(((charCode - 97 + 13) % 26) + 97);
-    } else {
-      // 알파벳이 아닌 경우는 그대로 반환
-      return char;
-    }
-  })
-  .join("");
+for (let i = 0; i < inputString.length; i++) {
+  const currentCharCode = inputString[i].charCodeAt(0);
 
-console.log(result);
+  if (currentCharCode >= 65 && currentCharCode <= 90) {
+    const shiftedCode = ((currentCharCode - 65 + 13) % 26) + 65;
+    compareArray.push(String.fromCharCode(shiftedCode));
+  } else if (currentCharCode >= 97 && currentCharCode <= 122) {
+    const shiftedCode = ((currentCharCode - 97 + 13) % 26) + 97;
+    compareArray.push(String.fromCharCode(shiftedCode));
+  } else {
+    compareArray.push(inputString[i]);
+  }
+}
+
+console.log(compareArray.join(""));
