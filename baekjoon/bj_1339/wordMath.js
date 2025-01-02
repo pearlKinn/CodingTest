@@ -1,36 +1,50 @@
-"use strict";
+// 입력을 받기 위한 준비
 const fs = require("fs");
 const filePath =
   process.platform === "linux" ? "/dev/stdin" : `${__dirname}/input.txt`;
 const input = fs.readFileSync(filePath).toString().trim().split("\r\n");
 
-const n = Number(input[0]);
-const list = input.slice(1);
+const N = parseInt(input[0]); // 단어의 개수
+const words = input.slice(1, N + 1); // 단어 목록
 
-let hashMap = new Map();
-let cnt = 0;
-let result = 0;
-let current = 9;
+const contribution = {};
 
-// 각 알파벳의 가중치 계산
-for (let i = 0; i < n; i++) {
-  for (let j = 0; j < list[i].length; j++) {
-    cnt = Math.pow(10, list[i].length - (j + 1));
-    hashMap.set(list[i][j], (hashMap.get(list[i][j]) || 0) + cnt);
+// 각 글자의 기여도를 계산
+words.forEach((word) => {
+  const length = word.length;
+  for (let i = 0; i < length; i++) {
+    const char = word[length - 1 - i]; // 오른쪽부터 시작
+    const positionValue = Math.pow(10, i); // 자리수 값 (1, 10, 100...)
+    if (contribution[char]) {
+      contribution[char] += positionValue;
+    } else {
+      contribution[char] = positionValue;
+    }
   }
-}
+});
 
-// 가중치에 따라 알파벳 정렬
-const sortMap = new Map([...hashMap.entries()].sort((a, b) => b[1] - a[1]));
+// 기여도에 따라 글자들을 내림차순으로 정렬
+const sortedLetters = Object.entries(contribution).sort((a, b) => b[1] - a[1]);
 
-// 숫자 할당 및 결과 계산
-for (let [_, alphabetValue] of sortMap) {
-  result += current * alphabetValue;
-  --current;
-}
+// 글자에 숫자 할당 (가장 높은 기여도부터 9, 8, ...)
+const letterToDigit = {};
+let currentDigit = 9;
+sortedLetters.forEach(([char, _]) => {
+  letterToDigit[char] = currentDigit;
+  currentDigit--;
+});
 
-// 최종 결과 출력
-console.log(result);
+// 총합 계산
+let maxSum = 0;
+words.forEach((word) => {
+  let numericValue = 0;
+  for (let char of word) {
+    numericValue = numericValue * 10 + letterToDigit[char];
+  }
+  maxSum += numericValue;
+});
+
+console.log(maxSum);
 
 /* 
 민식이는 수학학원에서 단어 수학 문제를 푸는 숙제를 받았다.
@@ -46,3 +60,7 @@ N개의 단어가 주어졌을 때, 그 수의 합을 최대로 만드는 프로
 
 
 */
+
+/**
+ *
+ */
